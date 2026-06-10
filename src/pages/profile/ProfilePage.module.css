@@ -1,0 +1,40 @@
+.page { display: flex; flex-direction: column; gap: 20px; max-width: 720px; }
+.profileHeader {
+  display: flex; align-items: center; gap: 20px;
+  padding: 24px; background: var(--card-bg);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+}
+.avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--b300), var(--b200));
+  color: white; font-size: 28px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); flex-shrink: 0;
+}
+.name { font-size: 22px; font-weight: 700; }
+.username { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.tabs { display: flex; gap: 4px; }
+.tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  border: 1.5px solid transparent;
+}
+.tab:hover { color: var(--b300); background: var(--b50); }
+.tabActive { color: var(--b300); background: var(--b50); border-color: var(--b100); }
+.card { padding: 24px; }
+.cardTitle { font-size: 16px; font-weight: 600; margin-bottom: 18px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.statsCard { padding: 24px; }
+.statsRow { display: flex; gap: 0; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.stat { flex: 1; padding: 16px; text-align: center; border-right: 1px solid var(--border); }
+.stat:last-child { border-right: none; }
+.statVal { font-size: 22px; font-weight: 700; color: var(--text-primary); font-family: var(--font-display); }
+.statLabel { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .profileHeader { flex-direction: column; text-align: center; }
+}
