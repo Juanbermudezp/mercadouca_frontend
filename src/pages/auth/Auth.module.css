@@ -1,0 +1,41 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--b400) 0%, var(--b300) 50%, var(--b200) 100%);
+  padding: 24px;
+}
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--gray-100);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: fadeUp 0.4s ease;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.logo { color: var(--text-primary); }
+.title { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--gray-900); }
+.form { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+.link { font-size: 13px; color: var(--text-secondary); transition: var(--transition); }
+.link:hover { color: var(--b300); }
+.linkBlue { color: var(--b300); font-weight: 500; }
+.footer { font-size: 13px; color: var(--text-secondary); }
+.divider { display: flex; align-items: center; gap: 12px; width: 100%; color: var(--text-muted); font-size: 12px; }
+.divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--border); }
+.roleGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+.roleBtn {
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--bg-primary);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: var(--text-secondary);
+  cursor: pointer; transition: var(--transition);
+}
+.roleBtn:hover, .roleActive { border-color: var(--b300); color: var(--b300); background: var(--b50); }
