@@ -1,0 +1,22 @@
+.wrapper { display: flex; flex-direction: column; gap: 6px; }
+.label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.req { color: var(--danger); margin-left: 3px; }
+.inputWrap { position: relative; }
+.icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); display: flex; }
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: var(--transition);
+}
+.input:focus { border-color: var(--b300); background: var(--bg-primary); box-shadow: 0 0 0 3px rgba(0,101,255,0.1); }
+.hasIcon { padding-left: 40px; }
+.hasError { border-color: var(--danger); }
+.hasError:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+.error { font-size: 12px; color: var(--danger); }
+.hint { font-size: 12px; color: var(--text-muted); }
