@@ -1,0 +1,19 @@
+.root { display: flex; min-height: 100vh; }
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.content {
+  margin-top: var(--navbar-h);
+  padding: 28px 32px;
+  flex: 1;
+  animation: fadeUp 0.3s ease;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+@media (max-width: 768px) {
+  .content { padding: 20px 16px; }
+}
