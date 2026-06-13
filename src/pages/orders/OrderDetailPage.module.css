@@ -1,0 +1,31 @@
+.page { display: flex; flex-direction: column; gap: 20px; }
+.header { display: flex; flex-direction: column; gap: 12px; }
+.back { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); transition: var(--transition); width: fit-content; }
+.back:hover { color: var(--b300); }
+.titleRow { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.title { font-size: 22px; font-weight: 700; }
+.date { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+.left { display: flex; flex-direction: column; gap: 16px; }
+.right { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 88px; }
+.card { padding: 20px; }
+.sectionTitle { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.item:last-child { border-bottom: none; padding-bottom: 0; }
+.itemImg { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); background: var(--bg-secondary); flex-shrink: 0; }
+.itemInfo { flex: 1; min-width: 0; }
+.itemTitle { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.itemSub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.itemPrice { font-size: 14px; font-weight: 700; color: var(--b300); white-space: nowrap; }
+.tracking { display: flex; flex-direction: column; gap: 10px; }
+.trackRow { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.trackRow span { color: var(--text-muted); }
+.summaryRow { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-secondary); padding: 7px 0; border-bottom: 1px solid var(--border); }
+.summaryRow:last-child { border-bottom: none; }
+.total { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.addr { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .right { position: static; }
+}

@@ -1,0 +1,9 @@
+.page { display: flex; flex-direction: column; gap: 20px; }
+.title { font-size: 24px; font-weight: 700; }
+.list { display: flex; flex-direction: column; gap: 12px; }
+.card { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.cardInfo { flex: 1; min-width: 0; }
+.name { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.cardActions { display: flex; gap: 8px; flex-shrink: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }

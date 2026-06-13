@@ -1,0 +1,69 @@
+.page { display: flex; flex-direction: column; gap: 24px; }
+.title { font-size: 24px; font-weight: 700; }
+
+.steps {
+  display: flex; align-items: center;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 16px 24px;
+  gap: 0; overflow-x: auto;
+}
+.stepItem { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.stepDot {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; border: 2px solid var(--border);
+  background: var(--bg-secondary); color: var(--text-muted);
+  transition: var(--transition);
+}
+.stepActive .stepDot { border-color: var(--b300); color: var(--b300); background: var(--b50); }
+.stepDone .stepDot { background: var(--b300); border-color: var(--b300); color: white; }
+.stepItem span { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.stepActive span, .stepDone span { color: var(--b300); }
+.stepLine { flex: 1; min-width: 32px; height: 2px; background: var(--border); margin: 0 12px; }
+.stepLineDone { background: var(--b300); }
+
+.layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
+.main { display: flex; flex-direction: column; gap: 0; }
+.card { padding: 24px; }
+.cardTitle { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+
+.addrList { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.addrBtn { padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); text-align: left; font-size: 13px; color: var(--text-secondary); background: var(--bg-secondary); transition: var(--transition); cursor: pointer; }
+.addrBtn:hover { border-color: var(--b100); color: var(--text-primary); }
+.addrBtnActive { border-color: var(--b300); background: var(--b50); color: var(--b300); }
+.addrDivider { text-align: center; font-size: 12px; color: var(--text-muted); padding: 8px 0; }
+
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.optionList { display: flex; flex-direction: column; gap: 10px; }
+.optionBtn { padding: 14px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-md); text-align: left; background: var(--bg-secondary); display: flex; justify-content: space-between; align-items: center; transition: var(--transition); cursor: pointer; }
+.optionBtn:hover { border-color: var(--b100); }
+.optionActive { border-color: var(--b300); background: var(--b50); }
+.optionTitle { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+.optionSub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.optionPrice { font-size: 15px; font-weight: 700; color: var(--b300); }
+
+.couponRow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-top: 16px; }
+.couponOk { font-size: 13px; color: var(--success); margin-top: 8px; font-weight: 500; }
+.noteLabel { font-size: 13px; font-weight: 500; color: var(--text-secondary); display: block; margin-bottom: 6px; }
+.noteArea { width: 100%; padding: 10px 14px; background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; outline: none; resize: vertical; font-family: var(--font-body); transition: var(--transition); }
+.noteArea:focus { border-color: var(--b300); }
+
+.stepNav { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.confirmRow { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text-secondary); }
+.confirmRow:last-of-type { border-bottom: none; }
+.confirmRow strong { color: var(--text-primary); }
+
+.summary { padding: 20px; position: sticky; top: 88px; }
+.summaryTitle { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+.summaryItem { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); padding: 4px 0; }
+.summaryItemName { flex: 1; margin-right: 8px; }
+.summaryDivider { height: 1px; background: var(--border); margin: 10px 0; }
+.summaryRow { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); padding: 5px 0; }
+.summaryTotal { font-size: 16px; font-weight: 700; color: var(--text-primary); padding-top: 10px; border-top: 1px solid var(--border); margin-top: 6px; }
+
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .summary { position: static; }
+  .formGrid { grid-template-columns: 1fr; }
+}

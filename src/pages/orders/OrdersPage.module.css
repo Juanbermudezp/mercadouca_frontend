@@ -1,0 +1,25 @@
+.page { display: flex; flex-direction: column; gap: 20px; }
+.title { font-size: 24px; font-weight: 700; }
+.list { display: flex; flex-direction: column; gap: 14px; }
+.orderCard { padding: 20px; }
+.orderHeader { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.orderNum { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.orderDate { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.orderItems { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.orderItem { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.itemDot { width: 6px; height: 6px; border-radius: 50%; background: var(--b300); flex-shrink: 0; }
+.itemName { flex: 1; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.itemQty { color: var(--text-muted); }
+.itemPrice { font-weight: 500; color: var(--text-primary); }
+.moreItems { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.orderFooter { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+.total { font-size: 14px; color: var(--text-secondary); }
+.total strong { color: var(--text-primary); }
+.viewBtn { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--b300); transition: var(--transition); }
+.viewBtn:hover { color: var(--b400); }
+.shopBtn { padding: 10px 24px; background: var(--b300); color: white; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; transition: var(--transition); }
+.shopBtn:hover { background: var(--b400); }
+.pagination { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.pageBtn { width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); font-size: 13px; color: var(--text-secondary); background: var(--card-bg); transition: var(--transition); }
+.pageBtn:hover { border-color: var(--b300); color: var(--b300); }
+.active { background: var(--b300); color: white; border-color: var(--b300); }
