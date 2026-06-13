@@ -1,0 +1,47 @@
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-3px); }
+.imgWrap { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--bg-secondary); }
+.img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.card:hover .img { transform: scale(1.04); }
+.featBadge { position: absolute; top: 10px; left: 10px; }
+.wishBtn {
+  position: absolute; top: 10px; right: 10px;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-400);
+  transition: var(--transition);
+  backdrop-filter: blur(4px);
+}
+.wishBtn:hover, .wished { color: #ef4444; background: rgba(255,255,255,0.95); }
+.body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.category { font-size: 11px; color: var(--b300); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+.title { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rating { display: flex; align-items: center; gap: 6px; }
+.ratingCount { font-size: 11px; color: var(--text-muted); }
+.availability { font-size: 11px; color: var(--success); }
+.priceRow { display: flex; align-items: baseline; gap: 8px; margin-top: 4px; }
+.price { font-size: 17px; font-weight: 700; color: var(--b300); font-family: var(--font-display); }
+.original { font-size: 12px; color: var(--text-muted); text-decoration: line-through; }
+.cartBtn {
+  margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 9px;
+  background: var(--b300);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 12px; font-weight: 500;
+  transition: var(--transition);
+  border: none; cursor: pointer; width: 100%;
+}
+.cartBtn:hover:not(:disabled) { background: var(--b400); }
+.cartBtn:disabled { opacity: 0.7; cursor: not-allowed; }

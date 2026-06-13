@@ -1,0 +1,63 @@
+.sidebar {
+  position: fixed;
+  left: 0; top: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  z-index: 100;
+  gap: 4px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--b50);
+  margin-bottom: 20px;
+  transition: var(--transition);
+}
+.logo:hover { background: var(--b100); }
+.nav { display: flex; flex-direction: column; gap: 4px; width: 100%; padding: 0 10px; }
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  transition: var(--transition);
+  position: relative;
+}
+.item:hover { color: var(--b300); background: var(--b50); }
+.active { color: var(--b300) !important; background: var(--b50); }
+.iconWrap { position: relative; }
+.badge {
+  position: absolute;
+  top: -6px; right: -8px;
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+
+.divider {
+  width: 24px;
+  height: 1px;
+  background: var(--border);
+  margin: 6px auto;
+  opacity: 0.6;
+}
