@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   Users, Clock, CheckCircle, XCircle,
-  AlertTriangle, Ban, UserCheck, Search,
+  AlertTriangle, UserCheck, Search,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { adminService } from '../../services/admin/adminService';
@@ -97,9 +97,6 @@ function SellerRow({ s, onAction }) {
           <Button size="sm" variant="outline" onClick={() => onAction('suspend', s.userId)}>
             Suspender
           </Button>
-          <Button size="sm" variant="danger" onClick={() => onAction('block', s.userId)}>
-            <Ban size={12} style={{ marginRight: 4 }} />Bloquear
-          </Button>
         </>}
         {(s.status === 'SUSPENDED' || s.status === 'REJECTED') && (
           <Button size="sm" onClick={() => onAction('approve', s.userId)}>Reactivar</Button>
@@ -134,6 +131,7 @@ export default function AdminUserManagementPage() {
       } else {
         const r = await adminService.getAllSellers({ page: 0, size: 50 });
         let all = r.data?.content || [];
+        if (activeTab === 'sellers') all = all.filter(s => s.status !== 'PENDING');
         if (activeTab === 'suspended') all = all.filter(s => s.status === 'SUSPENDED');
         content = all;
       }

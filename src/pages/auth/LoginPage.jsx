@@ -32,12 +32,7 @@ export default function LoginPage() {
       const redirects = { ADMIN: '/admin/dashboard', SELLER: '/shop', BUYER: '/shop' };
       navigate(redirects[user.role] || '/shop');
     } catch (err) {
-      const status = err?.response?.status || err?.status;
-      if (status === 401 || status === 403) {
-        setErrors({ email: 'Correo o contraseña incorrectos', password: ' ' });
-      } else {
-        toast.error(err?.message || 'Error al iniciar sesión');
-      }
+      setErrors({ general: err?.message || 'Correo o contraseña incorrectos' });
     } finally { setLoading(false); }
   };
 
@@ -49,12 +44,20 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <Input label="Correo Electronico" type="email" placeholder="Ingresa tu correo"
             icon={<Mail size={16} />} value={form.email}
-            onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
+            onChange={e => { setForm(p => ({ ...p, email: e.target.value })); setErrors({}); }}
             error={errors.email} required />
           <Input label="Contrasena" type="password" placeholder="Ingresa tu contrasena"
             icon={<Lock size={16} />} value={form.password}
-            onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
+            onChange={e => { setForm(p => ({ ...p, password: e.target.value })); setErrors({}); }}
             error={errors.password} required />
+          {errors.general && (
+            <div style={{
+              padding: '10px 14px', background: '#fef2f2', border: '1.5px solid #fca5a5',
+              borderRadius: 'var(--radius-sm)', color: '#dc2626', fontSize: 13, fontWeight: 500,
+            }}>
+              {errors.general}
+            </div>
+          )}
           <Button type="submit" fullWidth loading={loading} size="lg">Iniciar Sesion</Button>
         </form>
         <p className={styles.footer}>No tienes cuenta? <Link to="/register" className={styles.linkBlue}>Registrate</Link></p>

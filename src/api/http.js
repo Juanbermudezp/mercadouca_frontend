@@ -39,8 +39,8 @@ http.interceptors.response.use(
           window.location.href = '/login';
         }
       } else {
-        localStorage.clear();
-        window.location.href = '/login';
+        // Sin refresh token: rechazar normalmente para que el catch del componente lo maneje
+        return Promise.reject(err.response?.data || err);
       }
     }
     return Promise.reject(err.response?.data || err);

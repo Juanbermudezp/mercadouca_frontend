@@ -1,5 +1,7 @@
 .page { display: flex; gap: 24px; min-height: calc(100vh - 120px); }
-.sidebar {
+.sidebar { display: none; }
+.sidebarOpen {
+  display: block;
   width: 260px; flex-shrink: 0;
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -24,6 +26,7 @@
   transition: var(--transition);
 }
 .filterBtn:hover { border-color: var(--b300); color: var(--b300); }
+.filterBtnActive { border-color: var(--b300); color: var(--b300); background: var(--b50); }
 .chip {
   display: flex; align-items: center; gap: 6px;
   padding: 5px 10px;
@@ -62,6 +65,5 @@
 .pageBtnActive { background: var(--b300); color: white; border-color: var(--b300); }
 
 @media (max-width: 900px) {
-  .sidebar { display: none; }
-  .sidebar.sidebarOpen { display: block; position: fixed; left:0; top:0; z-index:200; height:100vh; overflow-y:auto; border-radius:0; }
+  .sidebarOpen { position: fixed; left:0; top:0; z-index:200; height:100vh; overflow-y:auto; border-radius:0; width:280px; }
 }

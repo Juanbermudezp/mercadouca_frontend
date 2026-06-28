@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Ban, Search, Pencil, X, Eye, CheckCircle } from 'lucide-react';
+import { Trash2, Search, Pencil, X, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { productService } from '../../services/products/productService';
 import { categoryService } from '../../services/categories/categoryService';
@@ -130,16 +130,10 @@ export default function AdminProductsPage() {
 
   const handleSearch = (e) => { e.preventDefault(); setPage(0); setSearch(keyword); load(keyword, 0); };
 
-  const ban = async (id, status) => {
-    if (status === 'BANNED') { toast('Ya está baneado'); return; }
-    if (!confirm('¿Banear este producto?')) return;
-    try { await productService.ban(id); toast.success('Producto baneado'); load(); }
-    catch (e) { toast.error(e?.message || 'Error'); }
-  };
-
-  const restore = async (id) => {
-    try { await productService.restore(id); toast.success('Producto restaurado'); load(); }
-    catch (e) { toast.error(e?.message || 'Error al restaurar'); }
+  const deleteProduct = async (id) => {
+    if (!confirm('¿Eliminar este producto? Esta acción lo desactivará.')) return;
+    try { await productService.remove(id); toast.success('Producto eliminado'); load(); }
+    catch (e) { toast.error(e?.message || 'Error al eliminar'); }
   };
 
   return (
@@ -176,17 +170,10 @@ export default function AdminProductsPage() {
                     onClick={() => setEditing(p)}>
                     Editar
                   </Button>
-                  {p.status !== 'BANNED' ? (
-                    <Button size="sm" variant="danger" icon={<Ban size={12} />}
-                      onClick={() => ban(p.id, p.status)}>
-                      Banear
-                    </Button>
-                  ) : (
-                    <Button size="sm" variant="outline" icon={<CheckCircle size={12} />}
-                      onClick={() => restore(p.id)}>
-                      Restaurar
-                    </Button>
-                  )}
+                  <Button size="sm" variant="danger" icon={<Trash2 size={12} />}
+                    onClick={() => deleteProduct(p.id)}>
+                    Eliminar
+                  </Button>
                 </div>
               </Card>
             ))}

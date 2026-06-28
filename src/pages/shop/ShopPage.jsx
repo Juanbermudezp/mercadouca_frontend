@@ -14,7 +14,7 @@ export default function ShopPage() {
   const [categories, setCategories] = useState([]);
   const [pagination, setPagination] = useState({ page: 0, totalPages: 0, totalElements: 0 });
   const [loading, setLoading] = useState(true);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [filters, setFilters] = useState({
     keyword: params.get('keyword') || '',
     categoryId: '', minPrice: '', maxPrice: '',
@@ -22,6 +22,12 @@ export default function ShopPage() {
   });
 
   useEffect(() => { categoryService.getAll().then(r => setCategories(r.data || [])); }, []);
+
+  // Sincronizar keyword cuando el Navbar navega a /shop?keyword=...
+  useEffect(() => {
+    const kw = params.get('keyword') || '';
+    setFilters(p => ({ ...p, keyword: kw, page: 0 }));
+  }, [params]);
 
   useEffect(() => {
     setLoading(true);
@@ -41,7 +47,9 @@ export default function ShopPage() {
       </aside>
       <div className={styles.content}>
         <div className={styles.toolbar}>
-          <button className={styles.filterBtn} onClick={() => setShowFilters(v => !v)}>
+          <button
+            className={`${styles.filterBtn} ${showFilters ? styles.filterBtnActive : ''}`}
+            onClick={() => setShowFilters(v => !v)}>
             <SlidersHorizontal size={16} /> Filtros
           </button>
           {filters.keyword && <div className={styles.chip}>{filters.keyword} <button onClick={() => setFilters(p => ({...p, keyword:''}))}><X size={12}/></button></div>}

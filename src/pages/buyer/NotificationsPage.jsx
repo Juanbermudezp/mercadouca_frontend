@@ -14,16 +14,21 @@ const ICONS = {
   SELLER_SUSPENDED: '⚠️', SELLER_BLOCKED: '🚫', SELLER_WARNING: '⚠️',
   NEW_MESSAGE: '💬', NEW_QUESTION: '❓', NEW_ANSWER: '💡',
   DISPUTE_RESOLVED: '✅', NEW_DISPUTE: '⚠️', NEW_ORDER: '🛒',
-  REVIEW_RECEIVED: '⭐',
+  REVIEW_RECEIVED: '⭐', ACCOUNT_DISABLED: '🚫', ACCOUNT_ENABLED: '✅',
+  DISPUTE_SELLER_RESPONDED: '💬',
 };
 
-/** Eventos que cambian el rol/estado del usuario → refrescar sesión */
+/** Eventos que cambian el rol/estado del usuario → refrescar perfil */
 const SESSION_REFRESH_TYPES = new Set([
   'SELLER_APPROVED', 'SELLER_REJECTED', 'SELLER_SUSPENDED', 'SELLER_BLOCKED',
+  'ACCOUNT_ENABLED',
 ]);
 
+/** Eventos que bloquean la cuenta → forzar logout */
+const FORCE_LOGOUT_TYPES = new Set(['ACCOUNT_DISABLED']);
+
 export default function NotificationsPage() {
-  const { refreshProfile } = useAuth();
+  const { refreshProfile, logout } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [unread, setUnread]       = useState(0);
   const [loading, setLoading]     = useState(true);
@@ -42,27 +47,45 @@ export default function NotificationsPage() {
       setTotalPages(res.data?.totalPages || 0);
       setUnread(cnt.data || 0);
 
-      // Si hay notificaciones no leídas que implican cambio de rol → refrescar sesión
-      const hasRoleChange = items.some(n => !n.read && SESSION_REFRESH_TYPES.has(n.type));
+      const unreadItems = items.filter(n => !n.read);
+
+      // Forzar logout si la cuenta fue desactivada
+      const wasDisabled = unreadItems.some(n => FORCE_LOGOUT_TYPES.has(n.type));
+      if (wasDisabled) {
+        toast.error('Tu cuenta ha sido desactivada. Serás desconectado.');
+        setTimeout(() => logout(), 2500);
+        return;
+      }
+
+      // Refrescar sesión si cambiaron permisos del vendedor
+      const hasRoleChange = unreadItems.some(n => SESSION_REFRESH_TYPES.has(n.type));
       if (hasRoleChange) {
         setRefreshing(true);
         refreshProfile()
-          .then(() => toast.success('Tu cuenta fue actualizada. Recarga si no ves los cambios.'))
+          .then(() => toast.success('Tu cuenta fue actualizada.'))
+          .catch(() => {})
           .finally(() => setRefreshing(false));
       }
+    }).catch(() => {
+      setNotifications([]);
     }).finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, [page]);
 
   const markAllRead = async () => {
-    await notificationService.markAllRead();
-    toast.success('Todas marcadas como leídas');
-    setUnread(0);
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    try {
+      await notificationService.markAllRead();
+      toast.success('Todas marcadas como leídas');
+      setUnread(0);
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    } catch {
+      toast.error('Error al marcar como leídas');
+    }
   };
 
   const timeAgo = (date) => {
+    if (!date) return '';
     const diff = Math.floor((Date.now() - new Date(date)) / 1000);
     if (diff < 60)    return 'ahora';
     if (diff < 3600)  return `${Math.floor(diff / 60)}m`;
@@ -77,8 +100,10 @@ export default function NotificationsPage() {
           <h1 className={styles.title}>🔔 Notificaciones</h1>
           {unread > 0 && <p className={styles.sub}>{unread} sin leer</p>}
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          {refreshing && <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Actualizando sesión…</span>}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          {refreshing && (
+            <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Actualizando…</span>
+          )}
           {unread > 0 && (
             <Button size="sm" variant="ghost" onClick={markAllRead}>
               Marcar todas como leídas

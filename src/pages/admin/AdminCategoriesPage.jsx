@@ -28,8 +28,9 @@ export default function AdminCategoriesPage() {
   };
 
   const del = async (id) => {
-    if (!confirm('¿Desactivar categoría?')) return;
-    await categoryService.remove(id); toast.success('Desactivada'); load();
+    if (!confirm('¿Eliminar esta categoría?')) return;
+    try { await categoryService.remove(id); toast.success('Categoría eliminada'); load(); }
+    catch (e) { toast.error(e?.message || 'Error al eliminar'); }
   };
 
   return (

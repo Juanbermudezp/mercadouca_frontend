@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Send, MessageCircle, Search, X, RefreshCw } from 'lucide-react';
+import { Send, MessageCircle, Search, X, RefreshCw, ArrowLeft } from 'lucide-react';
 import { chatService } from '../../services/chat/chatService';
 import { userService } from '../../services/users/userService';
 import { useAuth } from '../../context/AuthContext';
@@ -25,6 +25,7 @@ export default function ChatPage() {
   const [searchQuery,   setSearchQuery]   = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [mobileShowChat, setMobileShowChat] = useState(false);
   const bottomRef   = useRef(null);
   const searchTimer = useRef(null);
   const convTimer   = useRef(null);
@@ -131,6 +132,7 @@ export default function ChatPage() {
   const startConversation = (recipientId, recipientName) => {
     const convId = 'conv_' + Math.min(myId, recipientId) + '_' + Math.max(myId, recipientId);
     setActiveConv(convId);
+    setMobileShowChat(true);
     if (!convIds.includes(convId)) setConvIds(prev => [convId, ...prev]);
     setConvMeta(prev => ({
       ...prev,
@@ -171,7 +173,7 @@ export default function ChatPage() {
   const formatTime  = (d) => new Date(d).toLocaleTimeString('es', { hour:'2-digit', minute:'2-digit' });
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${mobileShowChat ? styles.pageChatMode : ''}`}>
       {/* ── Sidebar ── */}
       <div className={styles.sidebar}>
         <div className={styles.sideHeader}>
@@ -229,7 +231,7 @@ export default function ChatPage() {
                   return (
                     <button key={convId}
                       className={styles.convItem + (activeConv===convId ? ' '+styles.convActive : '')}
-                      onClick={() => setActiveConv(convId)}>
+                      onClick={() => { setActiveConv(convId); setMobileShowChat(true); }}>
                       <div className={styles.convAvatar}>
                         {(meta.name?.[0] || 'U').toUpperCase()}
                       </div>
@@ -271,6 +273,9 @@ export default function ChatPage() {
         ) : (
           <>
             <div className={styles.chatHeader}>
+              <button className={styles.backBtn} onClick={() => setMobileShowChat(false)} title="Volver">
+                <ArrowLeft size={18}/>
+              </button>
               <p className={styles.chatTitle}>{getConvName(activeConv)}</p>
             </div>
             <div className={styles.messages}>

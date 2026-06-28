@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { MessageCircle, ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 import { adminService } from '../../services/admin/adminService';
 import { useAuth } from '../../context/AuthContext';
 import { Card, Badge, Spinner } from '../../components/common/UI';
@@ -121,14 +121,21 @@ export default function AdminOrdersPage() {
   const [page, setPage]         = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [statusFilter, setStatusFilter] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const load = async () => {
     setLoading(true);
     try {
       const params = { page, size: 15 };
-      const res = statusFilter
-        ? await adminService.getOrdersByStatus(statusFilter, params)
-        : await adminService.getAllOrders(params);
+      let res;
+      if (searchQuery) {
+        res = await adminService.searchOrders(searchQuery, params);
+      } else if (statusFilter) {
+        res = await adminService.getOrdersByStatus(statusFilter, params);
+      } else {
+        res = await adminService.getAllOrders(params);
+      }
       const data = res.data || res;
       setOrders(data.content || []);
       setTotalPages(data.totalPages || 0);
@@ -136,17 +143,30 @@ export default function AdminOrdersPage() {
     finally { setLoading(false); }
   };
 
-  useEffect(() => { load(); }, [page, statusFilter]);
+  useEffect(() => { load(); }, [page, statusFilter, searchQuery]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(0);
+    setStatusFilter('');
+    setSearchQuery(searchInput.trim());
+  };
+
+  const clearSearch = () => {
+    setSearchInput('');
+    setSearchQuery('');
+    setPage(0);
+  };
 
   const STATUS_OPTIONS = ['', 'PENDING', 'PAID', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
 
   return (
     <div style={{ padding: '0 4px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
         <h1 style={{ fontSize: 22, fontWeight: 700 }}>Gestión de Órdenes</h1>
         <select
           value={statusFilter}
-          onChange={e => { setStatusFilter(e.target.value); setPage(0); }}
+          onChange={e => { setStatusFilter(e.target.value); setSearchQuery(''); setSearchInput(''); setPage(0); }}
           style={{
             padding: '8px 14px', borderRadius: 'var(--radius-sm)',
             border: '1.5px solid var(--border)', background: 'var(--bg-secondary)',
@@ -159,13 +179,51 @@ export default function AdminOrdersPage() {
         </select>
       </div>
 
+      {/* Barra de búsqueda */}
+      <form onSubmit={handleSearch} style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+        <div style={{ flex: 1, position: 'relative' }}>
+          <Search size={14} style={{
+            position: 'absolute', left: 11, top: '50%',
+            transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none',
+          }} />
+          <input
+            value={searchInput}
+            onChange={e => setSearchInput(e.target.value)}
+            placeholder="Buscar por número de orden o nombre del comprador..."
+            style={{
+              width: '100%', padding: '9px 36px 9px 32px',
+              background: 'var(--bg-secondary)', border: '1.5px solid var(--border)',
+              borderRadius: 'var(--radius-sm)', color: 'var(--text-primary)',
+              fontSize: 13, outline: 'none', boxSizing: 'border-box',
+            }}
+          />
+          {searchInput && (
+            <button type="button" onClick={clearSearch} style={{
+              position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
+              background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)',
+              display: 'flex', alignItems: 'center',
+            }}>
+              <X size={14} />
+            </button>
+          )}
+        </div>
+        <Button type="submit" size="sm" icon={<Search size={13} />}>Buscar</Button>
+        {searchQuery && (
+          <Button type="button" size="sm" variant="ghost" onClick={clearSearch}>Limpiar</Button>
+        )}
+      </form>
+
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', padding: 60 }}>
           <Spinner size={36} />
         </div>
       ) : orders.length === 0 ? (
         <p style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 40 }}>
-          No hay órdenes{statusFilter ? ` con estado "${ORDER_STATUS[statusFilter]?.label || statusFilter}"` : ''}.
+          {searchQuery
+            ? `No se encontraron órdenes para "${searchQuery}".`
+            : statusFilter
+              ? `No hay órdenes con estado "${ORDER_STATUS[statusFilter]?.label || statusFilter}".`
+              : 'No hay órdenes.'}
         </p>
       ) : (
         <>

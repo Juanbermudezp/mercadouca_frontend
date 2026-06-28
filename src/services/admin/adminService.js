@@ -8,6 +8,7 @@ export const adminService = {
   // Órdenes
   getAllOrders: (params) => http.get('/admin/orders', { params }),
   getOrdersByStatus: (status, params) => http.get(`/admin/orders/status/${status}`, { params }),
+  searchOrders: (keyword, params) => http.get('/admin/orders/search', { params: { keyword, ...params } }),
 
   // Vendedores
   getAllSellers: (params) => http.get('/admin/sellers', { params }),
